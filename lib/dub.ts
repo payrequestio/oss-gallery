@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Dub } from "dub";
 import { nanoid } from "@dub/utils";
 import { Link } from "@prisma/client";
 import { getUrlWithRef } from "./utils";
