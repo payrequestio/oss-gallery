@@ -60,7 +60,7 @@ export default async function ProjectLayout({
     notFound();
   }
 
-  const { stars } = await getRepo(project.githubLink.url);
+  const { stars } = await getRepo(project.githubLink?.url || '');
 
   if (stars !== project.stars) {
     await Promise.allSettled([
@@ -93,8 +93,8 @@ export default async function ProjectLayout({
       </div>
       <div className="relative -mt-8 flex items-center justify-between px-4 sm:-mt-12 sm:items-end md:pr-0">
         <Image
-          src={project.logo}
-          alt={project.name}
+          src={project.logo || '/default-logo.png'}
+          alt={project.name || 'Project Logo'}
           width={100}
           height={100}
           className="h-16 w-16 rounded-full bg-white p-2 sm:h-24 sm:w-24"
@@ -104,14 +104,16 @@ export default async function ProjectLayout({
           <Suspense>
             <EditProjectButton project={project} />
           </Suspense>
-          <a
-            href={project.githubLink.shortLink}
-            target="_blank"
-            className={buttonLinkVariants({ variant: "secondary" })}
-          >
-            <Star className="h-4 w-4" />
-            <p className="text-sm">{nFormatter(stars, { full: true })}</p>
-          </a>
+          {project.githubLink && (
+            <a
+              href={project.githubLink.shortLink}
+              target="_blank"
+              className={buttonLinkVariants({ variant: "secondary" })}
+            >
+              <Star className="h-4 w-4" />
+              <p className="text-sm">{nFormatter(stars, { full: true })}</p>
+            </a>
+          )}
           {project.websiteLink && (
             <a
               href={project.websiteLink.shortLink}
@@ -126,12 +128,12 @@ export default async function ProjectLayout({
       </div>
       <div className="max-w-lg p-4 pb-0">
         <div className="flex items-center space-x-2">
-          <h1 className="font-display text-3xl font-bold">{project.name}</h1>
+          <h1 className="font-display text-3xl font-bold">{project.name || 'Unnamed Project'}</h1>
           {project.verified && (
             <BadgeCheck className="h-8 w-8 text-white" fill="#1c9bef" />
           )}
         </div>
-        <p className="mt-2 text-gray-500">{project.description}</p>
+        <p className="mt-2 text-gray-500">{project.description || 'No description available.'}</p>
       </div>
 
       <ProjectLayoutTabs />
