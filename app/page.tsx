@@ -1,9 +1,35 @@
+"use client"; // This marks the component as a Client Component
+
 import ProjectList from "@/components/projects/project-list";
 import SearchBar, { SearchBarPlaceholder } from "@/components/ui/search-bar";
 import { Twitter } from "@dub/ui";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+
+type Project = {
+  id: string;
+  name: string;
+  slug: string;
+  stars: number;
+  verified: boolean;
+};
 
 export default function Home() {
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Simulating data fetch
+        const data = await fetch('/api/projects').then((res) => res.json());
+        setProjects(data || []);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+        setProjects([]); // default to an empty array on error
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="relative z-10 mx-auto w-full max-w-xl px-5 py-10 xl:px-0">
@@ -45,7 +71,7 @@ export default function Home() {
         className="animate-fade-up opacity-0"
         style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
       >
-        <ProjectList />
+        <ProjectList projects={projects} />
       </div>
     </>
   );
