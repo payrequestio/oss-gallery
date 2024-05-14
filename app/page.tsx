@@ -4,14 +4,7 @@ import ProjectList from "@/components/projects/project-list";
 import SearchBar, { SearchBarPlaceholder } from "@/components/ui/search-bar";
 import { Twitter } from "@dub/ui";
 import { Suspense, useEffect, useState } from "react";
-
-type Project = {
-  id: string;
-  name: string;
-  slug: string;
-  stars: number;
-  verified: boolean;
-};
+import { Project } from '@prisma/client';
 
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
