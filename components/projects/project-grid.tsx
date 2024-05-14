@@ -1,14 +1,14 @@
+// components/projects/project-grid.tsx
 import { cn } from "@dub/utils";
 import { Project } from "@prisma/client";
 import ProjectCard from "./project-card";
 
-export default function ProjectGrid({
-  projects,
-  className,
-}: {
+interface ProjectGridProps {
   projects: Project[];
   className?: string;
-}) {
+}
+
+const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, className }) => {
   return (
     <div
       className={cn(
@@ -21,4 +21,6 @@ export default function ProjectGrid({
       ))}
     </div>
   );
-}
+};
+
+export default ProjectGrid;
