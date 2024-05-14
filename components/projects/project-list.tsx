@@ -1,29 +1,21 @@
-import prisma from "@/lib/prisma";
-import { Suspense } from "react";
-import ProjectGrid from "./project-grid";
+// components/projects/project-list.tsx
+import React from 'react';
+import ProjectGrid from './project-grid';
+import { Project } from '@prisma/client';
 
-export default function ProjectList() {
-  return (
-    <Suspense fallback={null}>
-      <ProjectListRSC />
-    </Suspense>
-  );
+interface ProjectListProps {
+  projects: Project[];
 }
 
-async function ProjectListRSC() {
-  const featured = ["gallery", "dub", "ui"];
-  const projects = await prisma.project.findMany({
-    where: {
-      verified: true,
-    },
-    orderBy: {
-      stars: "desc",
-    },
-  });
+const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
+  if (!projects.length) {
+    return <div>No projects available</div>;
+  }
 
+  const featured = ["gallery", "dub", "ui"];
   const featuredProjects = featured.map((slug) =>
-    projects.find((project) => project.slug === slug),
-  );
+    projects.find((project) => project.slug === slug)
+  ).filter((project): project is Project => project !== undefined);
 
   return (
     <div className="mx-5 md:mx-0">
@@ -40,4 +32,6 @@ async function ProjectListRSC() {
       </div>
     </div>
   );
-}
+};
+
+export default ProjectList;
