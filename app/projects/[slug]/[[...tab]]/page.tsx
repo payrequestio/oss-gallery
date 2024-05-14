@@ -1,3 +1,5 @@
+"use client"; // This marks the component as a Client Component
+
 import ProjectList from "@/components/projects/project-list";
 import SearchBar, { SearchBarPlaceholder } from "@/components/ui/search-bar";
 import { Twitter } from "@dub/ui";
@@ -14,6 +16,7 @@ export default function Home() {
         setProjects(data || []);
       } catch (error) {
         console.error("Failed to fetch projects:", error);
+        setProjects([]); // default to an empty array on error
       }
     }
     fetchData();
