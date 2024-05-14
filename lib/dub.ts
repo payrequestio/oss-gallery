@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import { nanoid } from "@dub/utils";
 import { Link } from "@prisma/client";
-import { Dub } from "dub";
 import { getUrlWithRef } from "./utils";
 
 export const dub = new Dub({
